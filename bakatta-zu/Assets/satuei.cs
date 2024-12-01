@@ -8,10 +8,11 @@ public class satuei : MonoBehaviour
     public MeshRenderer targetRenderer;  // 操作対象のMeshRenderer
     private Coroutine currentCoroutine = null;  // 現在のコルーチンを管理
     public itemkirikae MonoBehaviour;  // MotimonoManagerスクリプトを参照する
+
     // Start is called before the first frame update
     void Start()
     {
-        targetRenderer.enabled = !targetRenderer.enabled;
+        targetRenderer.enabled = false;  // 初期状態でオブジェクトは非表示にする
     }
 
     // Update is called once per frame
@@ -19,31 +20,30 @@ public class satuei : MonoBehaviour
     {
         if (MonoBehaviour.motimono == 1)
         {
-            if (Input.GetKeyDown(KeyCode.Q))
+            // Qキーが押されるときにのみ動作
+            if (Input.GetKeyDown(KeyCode.Q) && !isKeyPressed)
             {
+                isKeyPressed = true;  // フラグを立てて、Qキーが押されていることを記録
                 if (currentCoroutine != null)
                 {
-                    StopCoroutine(currentCoroutine);
+                    StopCoroutine(currentCoroutine);  // 既存のコルーチンがあれば停止
                 }
-            }
-            if (Input.GetKeyUp(KeyCode.Q))
-            {
-                isKeyPressed = false;  // フラグをリセット
+                currentCoroutine = StartCoroutine(ShowAndHideMesh());  // 新しいコルーチンを開始
             }
 
-            // 新しいコルーチンを開始してMeshRendererを表示
-            targetRenderer.enabled = !targetRenderer.enabled;  // 最初に表示
-            currentCoroutine = StartCoroutine(HideMeshAfterSeconds(0.5f));
+            // Qキーが離されたときにフラグをリセット
+            if (Input.GetKeyUp(KeyCode.Q))
+            {
+                isKeyPressed = false;
+            }
         }
     }
 
-    IEnumerator HideMeshAfterSeconds(float seconds)
+    // メッシュを表示し、一定時間後に非表示にするコルーチン
+    IEnumerator ShowAndHideMesh()
     {
-        // 指定時間待機
-        yield return new WaitForSeconds(seconds);
-
-        // 0.5秒後に非表示
-        targetRenderer.enabled = !targetRenderer.enabled;
-        currentCoroutine = null;  // コルーチンの参照をクリア
+        targetRenderer.enabled = true;  // オブジェクトを表示
+        yield return new WaitForSeconds(0.5f);  // 0.5秒待機
+        targetRenderer.enabled = false;  // オブジェクトを非表示
     }
 }
