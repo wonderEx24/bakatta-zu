@@ -5,15 +5,16 @@ using UnityEngine;
 public class cameramove : MonoBehaviour
 {
     public GameObject player; // プレイヤーオブジェクト
-    public float rotationSpeed = 5f;  // 回転速度
+    public float rotationSpeed = 5f;  // 回転速度（プレイヤーとカメラ共通）
     public float verticalAngleLimit = 80f; // 上下回転の角度制限（度）
+    public Vector3 cameraOffset = new Vector3(0, 2, -5); // カメラの位置オフセット
 
     private float yaw = 0f; // 水平回転角度
     private float pitch = 0f; // 垂直回転角度
 
     void Start()
     {
-        // カメラの初期角度を取得
+        // 初期角度を取得
         Vector3 angles = transform.eulerAngles;
         yaw = angles.y;
         pitch = angles.x;
@@ -21,24 +22,35 @@ public class cameramove : MonoBehaviour
 
     void Update()
     {
-        // マウスの移動量を取得
+        // マウス入力を取得
         float mx = Input.GetAxis("Mouse X");
         float my = Input.GetAxis("Mouse Y");
 
-        // 水平回転（Y軸）
+        // マウスによる水平回転（Y軸）
         yaw += mx * rotationSpeed;
 
-        // 垂直回転（X軸）、角度制限を適用
+        // 矢印キーによる水平回転
+        if (Input.GetKey(KeyCode.RightArrow))
+        {
+            yaw += rotationSpeed * Time.deltaTime; // 右矢印で右回転
+        }
+        if (Input.GetKey(KeyCode.LeftArrow))
+        {
+            yaw -= rotationSpeed * Time.deltaTime; // 左矢印で左回転
+        }
+
+        // プレイヤーの回転を反映
+        player.transform.rotation = Quaternion.Euler(0, yaw, 0);
+
+        // 垂直回転（カメラのみ）
         pitch -= my * rotationSpeed;
         pitch = Mathf.Clamp(pitch, -verticalAngleLimit, verticalAngleLimit);
 
         // カメラの回転を計算
-        Quaternion rotation = Quaternion.Euler(pitch, yaw, 0); // Z軸回転をゼロに固定
-        transform.position = player.transform.position; // カメラをプレイヤーの位置に設定
-        transform.rotation = rotation;
+        Quaternion cameraRotation = Quaternion.Euler(pitch, yaw, 0);
 
-        // カメラをプレイヤーから一定距離後方に配置
-        Vector3 offset = new Vector3(0, 0, -5f); // 適当な距離を指定
-        transform.position += rotation * offset;
+        // カメラ位置をプレイヤー位置に合わせる
+        transform.position = player.transform.position + cameraRotation * cameraOffset;
+        transform.rotation = cameraRotation;
     }
 }

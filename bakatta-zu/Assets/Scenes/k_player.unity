@@ -755,7 +755,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1156075679}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!20 &1156075681
 Camera:
   m_ObjectHideFlags: 0
@@ -835,8 +835,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1696408104}
-  rotationSpeed: 1
-  verticalAngleLimit: 80
+  rotationSpeed: 2
+  verticalAngleLimit: 70
+  cameraOffset: {x: 0, y: 0, z: -5}
 --- !u!1 &1193914246
 GameObject:
   m_ObjectHideFlags: 0
@@ -1303,6 +1304,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jumpPower: 200
+  mouseSensitivity: 2
+  arrowKeyRotationSpeed: 3
 --- !u!1 &1862943866
 GameObject:
   m_ObjectHideFlags: 0
