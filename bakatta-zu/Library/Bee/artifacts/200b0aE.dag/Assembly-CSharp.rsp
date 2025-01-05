@@ -353,6 +353,7 @@
 "Assets/cameramove.cs"
 "Assets/itemkirikae.cs"
 "Assets/move.cs"
+"Assets/R_zikken/zikken.cs"
 "Assets/satuei.cs"
 -langversion:9.0
 
