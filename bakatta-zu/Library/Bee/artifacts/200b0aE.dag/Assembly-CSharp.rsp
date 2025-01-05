@@ -350,10 +350,11 @@
 -r:"Library/Bee/artifacts/200b0aE.dag/UnityEngine.UI.ref.dll"
 -analyzer:"/Applications/Unity/Hub/Editor/2022.3.14f1/Unity.app/Contents/Tools/Unity.SourceGenerators/Unity.Properties.SourceGenerator.dll"
 -analyzer:"/Applications/Unity/Hub/Editor/2022.3.14f1/Unity.app/Contents/Tools/Unity.SourceGenerators/Unity.SourceGenerators.dll"
-"Assets/cameramove.cs"
-"Assets/itemkirikae.cs"
-"Assets/move.cs"
-"Assets/satuei.cs"
+"Assets/K_program/script/cameramove.cs"
+"Assets/K_program/script/itemkirikae.cs"
+"Assets/K_program/script/move.cs"
+"Assets/K_program/script/police move.cs"
+"Assets/K_program/script/satuei.cs"
 -langversion:9.0
 
 /deterministic
