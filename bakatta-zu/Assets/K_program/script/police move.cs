@@ -26,20 +26,22 @@ public class PatrolAndChase : MonoBehaviour
         }
     }
 
-    private void Patrol()
-    {
-        if (patrolPoints.Length == 0) return;
+    private void Patrol() {
+    if (patrolPoints.Length == 0) return;
 
-        Transform patrolPoint = patrolPoints[currentPatrolIndex];
-        Vector3 direction = (patrolPoint.position - transform.position).normalized;
-        transform.position += direction * patrolSpeed * Time.deltaTime;
-        transform.LookAt(patrolPoint);
+    Transform patrolPoint = patrolPoints[currentPatrolIndex];
+    Vector3 direction = (patrolPoint.position - transform.position).normalized;
+    transform.position += direction * patrolSpeed * Time.deltaTime;
+    transform.LookAt(patrolPoint);
 
-        if (Vector3.Distance(transform.position, patrolPoint.position) < 0.5f)
-        {
-            currentPatrolIndex = (currentPatrolIndex + 1) % patrolPoints.Length;
-        }
+    // 巡回ポイントに近づいたら次のポイントに移動
+    if (Vector3.Distance(transform.position, patrolPoint.position) < 0.5f) {
+        currentPatrolIndex = (currentPatrolIndex + 1) % patrolPoints.Length;
     }
+
+    // プレイヤーを発見するかどうかをチェック
+    CheckForTarget();
+}
 
     private void CheckForTarget()
     {
@@ -49,21 +51,27 @@ public class PatrolAndChase : MonoBehaviour
         }
     }
 
-    private void ChaseTarget()
-    {
-        if (target == null)
-        {
-            chasing = false;
-            return;
-        }
-
-        Vector3 direction = (target.position - transform.position).normalized;
-        transform.position += direction * chaseSpeed * Time.deltaTime;
-        transform.LookAt(target);
-
-        if (Vector3.Distance(transform.position, target.position) > detectionRange)
-        {
-            chasing = false;
-        }
+    private void ChaseTarget() {
+    if (target == null) {
+        chasing = false;
+        return;
     }
+
+    Vector3 direction = (target.position - transform.position).normalized;
+    Vector3 newPosition = transform.position + direction * chaseSpeed * Time.deltaTime;
+
+    // Rigidbodyを取得してMovePositionを使用
+    Rigidbody rb = GetComponent<Rigidbody>();
+    if (rb != null) {
+        rb.MovePosition(newPosition);
+    } else {
+        transform.position = newPosition; // Rigidbodyがない場合は通常の移動
+    }
+
+    transform.LookAt(target);
+
+    if (Vector3.Distance(transform.position, target.position) > detectionRange) {
+        chasing = false;
+    }
+}
 }
