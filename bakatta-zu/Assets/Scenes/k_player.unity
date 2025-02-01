@@ -913,17 +913,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bca66edb7a75f43338c08a23e5d63f22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playermove: {fileID: 1696408110}
   patrolPoints:
   - {fileID: 1577713588}
   - {fileID: 448565792}
   - {fileID: 1458579933}
   - {fileID: 1952145093}
   patrolSpeed: 3
-  chaseSpeed: 13
+  chaseSpeedMultiplier: 30
   target: {fileID: 1696408109}
   detectionRange: 18
   fieldOfView: 100
   lostSightGraceTime: 5
+  playerMovementSpeed: 0.85
 --- !u!65 &1111295705
 BoxCollider:
   m_ObjectHideFlags: 0
