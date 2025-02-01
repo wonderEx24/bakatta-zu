@@ -6,9 +6,9 @@ public class Move : MonoBehaviour
 {
     Rigidbody rb;
     public float jumpPower = 5f;
-    public float mouseSensitivity = 2f; // マウス感度調整用
-    public float keyMovementSpeed = 0.2f; // 移動速度調整用
-    private bool isGrounded = false; // 地面に接触しているか
+    public float mouseSensitivity = 2f;
+    public float keyMovementSpeed = 0.2f;
+    private bool isGrounded = false;
 
     void Start()
     {
@@ -19,19 +19,19 @@ public class Move : MonoBehaviour
     {
         float movementSpeed = Input.GetKey(KeyCode.LeftShift) ? keyMovementSpeed * 2 : keyMovementSpeed;
 
-        if (Input.GetKey(KeyCode.A)) this.transform.Translate(-movementSpeed, 0.0f, 0.0f); // 左に移動
-        if (Input.GetKey(KeyCode.D)) this.transform.Translate(movementSpeed, 0.0f, 0.0f); // 右に移動
-        if (Input.GetKey(KeyCode.W)) this.transform.Translate(0.0f, 0.0f, movementSpeed); // 前に移動
-        if (Input.GetKey(KeyCode.S)) this.transform.Translate(0.0f, 0.0f, -movementSpeed); // 後ろに移動
+        if (Input.GetKey(KeyCode.A)) transform.Translate(-movementSpeed, 0.0f, 0.0f);
+        if (Input.GetKey(KeyCode.D)) transform.Translate(movementSpeed, 0.0f, 0.0f);
+        if (Input.GetKey(KeyCode.W)) transform.Translate(0.0f, 0.0f, movementSpeed);
+        if (Input.GetKey(KeyCode.S)) transform.Translate(0.0f, 0.0f, -movementSpeed);
 
         float mx = Input.GetAxis("Mouse X");
-        if (Mathf.Abs(mx) > 0.001f) this.transform.Rotate(0, mx * mouseSensitivity, 0);
+        if (Mathf.Abs(mx) > 0.001f) transform.Rotate(0, mx * mouseSensitivity, 0);
 
-        // スペースキーでジャンプ
+        // ジャンプ処理
         if (isGrounded && Input.GetKeyDown(KeyCode.Space))
         {
-            rb.AddForce(transform.up * jumpPower, ForceMode.Impulse);
-            isGrounded = false; // ジャンプしたら接地をリセット
+            rb.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
+            isGrounded = false;
         }
     }
 
@@ -39,7 +39,15 @@ public class Move : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Ground"))
         {
-            isGrounded = true; // 地面に触れている間
+            foreach (ContactPoint contact in collision.contacts)
+            {
+                // 接触面の法線が上向き（45°以内）か確認
+                if (Vector3.Angle(contact.normal, Vector3.up) < 45f)
+                {
+                    isGrounded = true;
+                    return; // 1つでも上向きの面があれば地面判定
+                }
+            }
         }
     }
 
@@ -47,7 +55,7 @@ public class Move : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Ground"))
         {
-            isGrounded = false; // 地面から離れたとき
+            isGrounded = false;
         }
     }
 }

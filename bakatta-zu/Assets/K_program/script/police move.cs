@@ -4,14 +4,21 @@ using UnityEngine;
 
 public class PatrolAndChase : MonoBehaviour
 {
-    public Transform[] patrolPoints;  // 巡回するポイントのリスト
-    public float patrolSpeed = 3f;    // 巡回時の速度
-    public float chaseSpeed = 6f;     // 追尾時の速度
-    public Transform target;          // Cubeのターゲット
-    public float detectionRange = 10f;  // Cubeを発見する範囲
+    public Move playermove;
+    public Transform[] patrolPoints;      // 巡回するポイント
+    public float patrolSpeed = 3f;        // 巡回時の速度
+    public float chaseSpeedMultiplier = 1f; // 追尾時の速度倍率（プレイヤー速度の何倍か）
+    public Transform target;              // プレイヤー
+    public float detectionRange = 10f;    // プレイヤーを発見する範囲
+    public float fieldOfView = 60f;       // 視野角
+    public float lostSightGraceTime = 3f; // 見失い猶予時間 (秒)
 
-    private int currentPatrolIndex = 0;  // 現在の巡回ポイント
-    private bool chasing = false;        // 追尾中かどうか
+    private int currentPatrolIndex = 0;   // 現在の巡回ポイント
+    private bool chasing = false;         // 追尾中かどうか
+    private float lostSightTimer = 0f;    // 見失い猶予タイマー
+
+    // プレイヤーの速度
+    public float playerMovementSpeed = 0.2f;
 
     void Update()
     {
@@ -27,51 +34,85 @@ public class PatrolAndChase : MonoBehaviour
     }
 
     private void Patrol() {
-    if (patrolPoints.Length == 0) return;
+        if (patrolPoints.Length == 0) return;
 
-    Transform patrolPoint = patrolPoints[currentPatrolIndex];
-    Vector3 direction = (patrolPoint.position - transform.position).normalized;
-    transform.position += direction * patrolSpeed * Time.deltaTime;
-    transform.LookAt(patrolPoint);
+        // 次の巡回ポイントまで移動
+        Transform patrolPoint = patrolPoints[currentPatrolIndex];
+        Vector3 direction = (patrolPoint.position - transform.position).normalized;
+        transform.position += direction * patrolSpeed * Time.deltaTime;
+        transform.LookAt(patrolPoint);
 
-    // 巡回ポイントに近づいたら次のポイントに移動
-    if (Vector3.Distance(transform.position, patrolPoint.position) < 0.5f) {
-        currentPatrolIndex = (currentPatrolIndex + 1) % patrolPoints.Length;
+        if (Vector3.Distance(transform.position, patrolPoint.position) < 0.5f) {
+            currentPatrolIndex = (currentPatrolIndex + 1) % patrolPoints.Length;
+        }
     }
-
-    // プレイヤーを発見するかどうかをチェック
-    CheckForTarget();
-}
 
     private void CheckForTarget()
     {
-        if (target != null && Vector3.Distance(transform.position, target.position) <= detectionRange)
+        if (target == null) return;
+
+        Vector3 directionToTarget = (target.position - transform.position).normalized;
+        float distanceToTarget = Vector3.Distance(transform.position, target.position);
+        float angleToTarget = Vector3.Angle(transform.forward, directionToTarget);
+
+        if (distanceToTarget <= detectionRange && angleToTarget <= fieldOfView / 2)
         {
-            chasing = true;
+            if (HasLineOfSight(target))
+            {
+                chasing = true;
+                lostSightTimer = lostSightGraceTime;
+            }
         }
     }
 
     private void ChaseTarget() {
-    if (target == null) {
-        chasing = false;
-        return;
+        if (target == null) {
+            chasing = false;
+            return;
+        }
+
+        // プレイヤーの速度に基づいて追尾速度を計算
+        playerMovementSpeed = playermove.keyMovementSpeed;
+        float chaseSpeed = playerMovementSpeed * chaseSpeedMultiplier;
+
+        // 追尾
+        Vector3 direction = (target.position - transform.position).normalized;
+        Vector3 newPosition = transform.position + direction * chaseSpeed * Time.deltaTime;
+
+        Rigidbody rb = GetComponent<Rigidbody>();
+        if (rb != null) {
+            rb.MovePosition(newPosition);
+        } else {
+            transform.position = newPosition;
+        }
+
+        transform.LookAt(target);
+
+        float distanceToTarget = Vector3.Distance(transform.position, target.position);
+        float angleToTarget = Vector3.Angle(transform.forward, direction);
+
+        if (distanceToTarget > detectionRange || angleToTarget > fieldOfView / 2 || !HasLineOfSight(target)) {
+            lostSightTimer -= Time.deltaTime;
+            if (lostSightTimer <= 0) {
+                chasing = false;
+            }
+        }
+        else
+        {
+            lostSightTimer = lostSightGraceTime;
+        }
     }
 
-    Vector3 direction = (target.position - transform.position).normalized;
-    Vector3 newPosition = transform.position + direction * chaseSpeed * Time.deltaTime;
+    private bool HasLineOfSight(Transform target)
+    {
+        Vector3 directionToTarget = (target.position - transform.position).normalized;
+        float distanceToTarget = Vector3.Distance(transform.position, target.position);
 
-    // Rigidbodyを取得してMovePositionを使用
-    Rigidbody rb = GetComponent<Rigidbody>();
-    if (rb != null) {
-        rb.MovePosition(newPosition);
-    } else {
-        transform.position = newPosition; // Rigidbodyがない場合は通常の移動
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, directionToTarget, out hit, distanceToTarget))
+        {
+            return hit.transform == target;
+        }
+        return true;
     }
-
-    transform.LookAt(target);
-
-    if (Vector3.Distance(transform.position, target.position) > detectionRange) {
-        chasing = false;
-    }
-}
 }
