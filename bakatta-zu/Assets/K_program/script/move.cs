@@ -10,13 +10,47 @@ public class Move : MonoBehaviour
     public float keyMovementSpeed = 0.2f;
     private bool isGrounded = false;
 
+    // ピンポン（チャイム）オブジェクトと距離判定の設定
+    public Transform[] doorbells;  // 複数のピンポン（チャイム）の位置を配列で設定
+    [Range(0.1f, 10f)] // 0.1から10の範囲で距離を設定できるようにする
+    public float interactDistance = 2f;  // ピンポンに近づく距離
+    public AudioClip doorbellSound;  // ピンポンの音
+    private AudioSource audioSource;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        audioSource = GetComponent<AudioSource>(); // オーディオソースを取得
     }
 
     void Update()
     {
+        // プレイヤーの足元の位置を取得（またはColliderの中心）
+        Vector3 playerFeetPosition = transform.position;
+
+        // 複数のピンポンとプレイヤーの距離をチェック
+        for (int i = 0; i < doorbells.Length; i++)
+        {
+            // ピンポンとの距離を計算
+            float distance = Vector3.Distance(playerFeetPosition, doorbells[i].position);
+
+            // 距離がゼロに近くても、少し余裕を持って反応できるように調整
+            if (distance <= interactDistance)
+            {
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                    RingDoorbell(i);  // どのピンポンを鳴らすか指定する
+                }
+            }
+
+            // 距離が外れた時のデバッグ
+            else
+            {
+                //Debug.Log($"ピンポン{i + 1}までの距離: {distance}");  // 距離を表示
+            }
+        }
+
+        // 移動の処理
         float movementSpeed = Input.GetKey(KeyCode.LeftShift) ? keyMovementSpeed * 2 : keyMovementSpeed;
 
         if (Input.GetKey(KeyCode.A)) transform.Translate(-movementSpeed, 0.0f, 0.0f);
@@ -33,6 +67,16 @@ public class Move : MonoBehaviour
             rb.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
             isGrounded = false;
         }
+    }
+
+    void RingDoorbell(int index)
+    {
+        // 音を鳴らす（音が設定されていれば）
+        if (doorbellSound != null)
+        {
+            audioSource.PlayOneShot(doorbellSound);  // ピンポンの音を鳴らす
+        }
+        Debug.Log($"ピンポン{index + 1}が鳴りました！");
     }
 
     private void OnCollisionStay(Collision collision)

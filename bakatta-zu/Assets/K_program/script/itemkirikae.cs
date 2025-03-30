@@ -10,10 +10,11 @@ public class itemkirikae : MonoBehaviour
     public Transform firePoint;  // 弾を発射する位置（例えば水鉄砲の先端）
     public float fireRate = 0.2f; // 連射の間隔（秒）
     private float nextFireTime = 0f; // 次に撃てる時間
+    public Animator playerAnimator; // プレイヤーのAnimator（ハンマー振るアニメーション用）
 
     void Start()
     {
-        motimono = 1;
+        motimono = 10;
     }
 
     void Update()
@@ -37,6 +38,12 @@ public class itemkirikae : MonoBehaviour
         {
             nextFireTime = Time.time + fireRate; // 次に撃てる時間を更新
             ShootWaterGun();
+        }
+
+        // **ハンマーを持っていて、左クリックが押されたらハンマーを振る**
+        if (motimono == 8 && Input.GetMouseButtonDown(0))
+        {
+            SwingHammer();
         }
     }
 
@@ -78,5 +85,17 @@ public class itemkirikae : MonoBehaviour
             bullet.tag = "Bullet"; 
             Destroy(bullet, 5f);
         }
+    }
+
+    void SwingHammer()
+    {
+        // ハンマー振るアニメーションをトリガー
+        if (playerAnimator != null)
+        {
+            playerAnimator.SetTrigger("SwingHammer"); // ハンマー振るアニメーションを再生
+        }
+
+        // ハンマー振った後の処理（エフェクトなど）
+        // ここにエフェクト処理を追加することもできます
     }
 }
