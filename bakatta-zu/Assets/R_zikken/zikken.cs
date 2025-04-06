@@ -11,18 +11,17 @@ public class zikken : MonoBehaviour
 
     [SerializeField]
     private Transform _player;
-public Transform[] goals;
-private int destNum = 0;
-public NavMeshAgent agent;
+  public Transform[] goals;
+  private int destNum = 0;
+  public NavMeshAgent agent;
     void Start()
     {
-        agent.destination = goals[destNum].position;
+        agent.SetDestination(goals[destNum].position);
         // NavMeshAgentの移動速度を設定
         _navMeshAgent.speed = 60f;          // デフォルトは3.5。大きい値に設定して移動速度を上げる
         _navMeshAgent.acceleration = 100f; // 加速を設定。デフォルトは8。値を増やすことで素早く速度に到達
-        _navMeshAgent.angularSpeed = 3600f; // 回転速度。デフォルトは120。高い値で素早く方向転換
-    }
-
+        _navMeshAgent.angularSpeed = 3600f;
+    }     // 回転速度。デフォルトは120。高い値で素早く方向転換
     void Update()
     {
         
