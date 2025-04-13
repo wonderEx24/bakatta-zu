@@ -360,7 +360,7 @@
 "Assets/move.cs"
 "Assets/R_zikken/zikken.cs"
 "Assets/satuei.cs"
-"Assets/Scenes/sakuteki.cs"
+"Assets/Scenes/c#/sakuteki.cs"
 -langversion:9.0
 
 /deterministic
