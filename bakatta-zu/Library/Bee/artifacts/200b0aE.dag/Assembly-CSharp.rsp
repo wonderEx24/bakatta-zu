@@ -353,6 +353,12 @@
 "Assets/cameramove.cs"
 "Assets/itemkirikae.cs"
 "Assets/move.cs"
+"Assets/o/CameraMove.cs"
+"Assets/o/criminals.cs"
+"Assets/o/Homing.cs"
+"Assets/o/PlayerMove.cs"
+"Assets/o/police.cs"
+"Assets/o/report.cs"
 "Assets/satuei.cs"
 -langversion:9.0
 
