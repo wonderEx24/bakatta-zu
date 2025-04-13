@@ -17,6 +17,9 @@ public class Move : MonoBehaviour
     public AudioClip doorbellSound;  // ピンポンの音
     private AudioSource audioSource;
 
+    // 行動中かどうかを示すフラグ
+    private bool isActioning = false;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -35,18 +38,14 @@ public class Move : MonoBehaviour
             float distance = Vector3.Distance(playerFeetPosition, doorbells[i].position);
 
             // 距離がゼロに近くても、少し余裕を持って反応できるように調整
-            if (distance <= interactDistance)
+            if (distance <= interactDistance && !isActioning) // isActioningがfalseの場合のみ反応
             {
                 if (Input.GetKeyDown(KeyCode.E))
                 {
                     RingDoorbell(i);  // どのピンポンを鳴らすか指定する
+                    isActioning = true;  // 行動中フラグを立てる
+                    StartCoroutine(ResetActionFlag()); // 1秒後にフラグを戻す
                 }
-            }
-
-            // 距離が外れた時のデバッグ
-            else
-            {
-                //Debug.Log($"ピンポン{i + 1}までの距離: {distance}");  // 距離を表示
             }
         }
 
@@ -101,5 +100,12 @@ public class Move : MonoBehaviour
         {
             isGrounded = false;
         }
+    }
+
+    // 行動フラグを1秒後にリセットするコルーチン
+    private IEnumerator ResetActionFlag()
+    {
+        yield return new WaitForSeconds(1f);  // 1秒待機
+        isActioning = false;  // フラグをリセット
     }
 }
