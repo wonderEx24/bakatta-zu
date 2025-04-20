@@ -16,7 +16,7 @@ public class police : MonoBehaviour
     void Update()
     {
         Report = report.count;
-        Debug.Log(Report);
+        // Debug.Log(Report);
         if(Report > 9.95f)
         {
             //署から出動、確率でパトカー　プレファブにする

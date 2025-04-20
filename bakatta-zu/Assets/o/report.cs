@@ -4,16 +4,22 @@ using UnityEngine;
 
 public class report : MonoBehaviour
 {
-    public static int count;
+    public static float count;
+    // bool intercom;
     // Start is called before the first frame update
     void Start()
     {
-        
+        // intercom = move.isActioning;
     }
 
     // Update is called once per frame
     void Update()
     {
         //バカ行為カウント
+        // if(intercom == true)
+        // {
+        //     count = count + 2;
+        // }
+        count += Time.deltaTime;
     }
 }
