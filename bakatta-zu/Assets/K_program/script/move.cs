@@ -18,7 +18,7 @@ public class Move : MonoBehaviour
     private AudioSource audioSource;
 
     // 行動中かどうかを示すフラグ
-    private bool isActioning = false;
+    private static bool isActioning = false;
 
     void Start()
     {
