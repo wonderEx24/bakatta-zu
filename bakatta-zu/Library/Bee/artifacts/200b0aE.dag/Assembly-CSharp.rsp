@@ -361,6 +361,7 @@
 "Assets/R_zikken/zikken.cs"
 "Assets/satuei.cs"
 "Assets/Scenes/c#/sakuteki.cs"
+"Assets/Scenes/New Folder/random/random.cs"
 -langversion:9.0
 
 /deterministic
