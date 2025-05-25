@@ -6,11 +6,19 @@ public class itemkirikae : MonoBehaviour
 {
     public GameObject[] items;  // 持つアイテムを格納する配列
     public int motimono;
-    public GameObject bulletPrefab;  // 弾のPrefab
-    public Transform firePoint;  // 弾を発射する位置（例えば水鉄砲の先端）
-    public float fireRate = 0.2f; // 連射の間隔（秒）
-    private float nextFireTime = 0f; // 次に撃てる時間
-    public Animator playerAnimator; // プレイヤーのAnimator（ハンマー振るアニメーション用）
+    public GameObject bulletPrefab;
+    public GameObject fireworkPrefab;  // 花火のPrefab（爆発エフェクト）
+    public Transform firePoint;  // 発射位置（持っている手の位置）
+    public float fireRate = 0.2f; // 連射の間隔
+    private float nextFireTime = 0f;
+
+    // ハンマー回転用
+    private bool isSwinging = false;
+    private float swingTime = 0f;
+    private float swingDuration = 0.3f;
+    private Quaternion originalRotation;
+    private Quaternion swingRotation;
+    private Transform hammerTransform;
 
     void Start()
     {
@@ -19,31 +27,57 @@ public class itemkirikae : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1)) motimono = 1; // スマホ持つ
-        if (Input.GetKeyDown(KeyCode.Alpha2)) motimono = 2; // たら（ば）こ持つ
-        if (Input.GetKeyDown(KeyCode.Alpha3)) motimono = 3; // 爪楊枝（？？？）持つ
-        if (Input.GetKeyDown(KeyCode.Alpha4)) motimono = 4; // 花火持つ
-        if (Input.GetKeyDown(KeyCode.Alpha5)) motimono = 5; // 除草剤持つ
-        if (Input.GetKeyDown(KeyCode.Alpha6)) motimono = 6; // 虫持つ
-        if (Input.GetKeyDown(KeyCode.Alpha7)) motimono = 7; // 水鉄砲持つ
-        if (Input.GetKeyDown(KeyCode.Alpha8)) motimono = 8; // ハンマー（ピコピコ？）持つ
-        if (Input.GetKeyDown(KeyCode.Alpha9)) motimono = 9; // カエンタケ（？？？）持つ
-        if (Input.GetKeyDown(KeyCode.Alpha0)) motimono = 10; // 指（？？？？？）持つ
+        if (Input.GetKeyDown(KeyCode.Alpha1)) motimono = 1;
+        if (Input.GetKeyDown(KeyCode.Alpha2)) motimono = 2;
+        if (Input.GetKeyDown(KeyCode.Alpha3)) motimono = 3;
+        if (Input.GetKeyDown(KeyCode.Alpha4)) motimono = 4;
+        if (Input.GetKeyDown(KeyCode.Alpha5)) motimono = 5;
+        if (Input.GetKeyDown(KeyCode.Alpha6)) motimono = 6;
+        if (Input.GetKeyDown(KeyCode.Alpha7)) motimono = 7;
+        if (Input.GetKeyDown(KeyCode.Alpha8)) motimono = 8;
+        if (Input.GetKeyDown(KeyCode.Alpha9)) motimono = 9;
+        if (Input.GetKeyDown(KeyCode.Alpha0)) motimono = 10;
 
-        // アイテムを切り替え
         ChangeItem();
 
-        // **水鉄砲を持っていて、左クリックが押されている & 連射間隔を満たしたら発射**
+        // 水鉄砲
         if (motimono == 7 && Input.GetMouseButton(0) && Time.time >= nextFireTime)
         {
-            nextFireTime = Time.time + fireRate; // 次に撃てる時間を更新
+            nextFireTime = Time.time + fireRate;
             ShootWaterGun();
         }
 
-        // **ハンマーを持っていて、左クリックが押されたらハンマーを振る**
-        if (motimono == 8 && Input.GetMouseButtonDown(0))
+        // ハンマー振る
+        if (motimono == 8 && Input.GetMouseButtonDown(0) && !isSwinging)
         {
-            SwingHammer();
+            if (motimono - 1 < items.Length)
+            {
+                hammerTransform = items[motimono - 1].transform;
+                originalRotation = hammerTransform.localRotation;
+                swingRotation = originalRotation * Quaternion.Euler(0f, 0f, -90f);
+                swingTime = 0f;
+                isSwinging = true;
+            }
+        }
+
+        if (isSwinging)
+        {
+            swingTime += Time.deltaTime / swingDuration;
+            float swingLerp = Mathf.Sin(swingTime * Mathf.PI);
+            hammerTransform.localRotation = Quaternion.Lerp(originalRotation, swingRotation, swingLerp);
+
+            if (swingTime >= 1f)
+            {
+                isSwinging = false;
+                hammerTransform.localRotation = originalRotation;
+            }
+        }
+
+        // 花火発射
+        if (motimono == 4 && Input.GetMouseButtonDown(0) && Time.time >= nextFireTime)
+        {
+            nextFireTime = Time.time + fireRate;
+            ShootFirework();
         }
     }
 
@@ -82,20 +116,42 @@ public class itemkirikae : MonoBehaviour
                 }
             }
 
-            bullet.tag = "Bullet"; 
+            bullet.tag = "Bullet";
             Destroy(bullet, 5f);
         }
     }
 
-    void SwingHammer()
+    // 花火発射処理
+    void ShootFirework()
     {
-        // ハンマー振るアニメーションをトリガー
-        if (playerAnimator != null)
+        if (fireworkPrefab != null && firePoint != null)
         {
-            playerAnimator.SetTrigger("SwingHammer"); // ハンマー振るアニメーションを再生
-        }
+            // 花火を発射
+            GameObject firework = Instantiate(fireworkPrefab, firePoint.position, firePoint.rotation);
 
-        // ハンマー振った後の処理（エフェクトなど）
-        // ここにエフェクト処理を追加することもできます
+            // 花火に力を加えて発射（向いている方向に飛ばす）
+            Rigidbody rb = firework.GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                rb.AddForce(firePoint.forward * 20f, ForceMode.VelocityChange);  // 20f は発射の強さ
+            }
+
+            Destroy(firework, 3f);  // 3秒後に花火を削除（爆発エフェクトの後など）
+        }
+    }
+}
+
+// 花火のスクリプト（爆発処理）
+public class Firework : MonoBehaviour
+{
+    // 花火が地面に触れたら消える
+    private void OnCollisionEnter(Collision collision)
+    {
+        // 地面やその他のオブジェクトに衝突したとき
+        if (collision.gameObject.CompareTag("Ground"))  // 地面のTagは「Ground」に設定
+        {
+            // 爆発エフェクト（必要ならここに加えます）
+            Destroy(gameObject);  // 花火を削除
+        }
     }
 }
