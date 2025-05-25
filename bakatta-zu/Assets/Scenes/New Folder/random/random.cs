@@ -2,31 +2,34 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class random : MonoBehaviour
+public class RandomSpawner : MonoBehaviour
 {
-    public GameObject prefabToSpawn;
+    public GameObject[] prefabsToSpawn; // 配列で複数のPrefabを保持
     public int spawnCount = 10;
     public float range = 10f;
-    // Start is called before the first frame update
+
     void Start()
     {
         for (int i = 0; i < spawnCount; i++)
         {
-Vector3 randomPosittion = new Vector3(
-        Random.Range(-range, range),
-        0,
-        Random.Range(-range, range)
-    );
+            // ランダムな位置を決定
+            Vector3 randomPosition = new Vector3(
+                Random.Range(-range, range),
+                0,
+                Random.Range(-range, range)
+            );
 
-    Instantiate(prefabToSpawn, randomPosittion, Quaternion.identity);
+            // ランダムにPrefabを選択
+            int randomIndex = Random.Range(0, prefabsToSpawn.Length);
+            GameObject selectedPrefab = prefabsToSpawn[randomIndex];
 
+            // 生成
+            Instantiate(selectedPrefab, randomPosition, Quaternion.identity);
         }
     }
 
-    
-    // Update is called once per frame
     void Update()
     {
-        
+        // 今回は不要ですが、何か動的に変えたい場合に使えます
     }
 }
