@@ -9,7 +9,7 @@ public class itemkirikae : MonoBehaviour
     public GameObject bulletPrefab;
     public GameObject fireworkPrefab;  // 花火のPrefab（爆発エフェクト）
     public Transform firePoint;  // 発射位置（持っている手の位置）
-    public float fireRate = 0.2f; // 連射の間隔
+    public float fireRate = 0.005f; // 連射の間隔
     private float nextFireTime = 0f;
 
     // ハンマー回転用
@@ -100,7 +100,7 @@ public class itemkirikae : MonoBehaviour
 
             if (rb != null)
             {
-                rb.AddForce(firePoint.forward * 20f, ForceMode.VelocityChange);
+                rb.AddForce(firePoint.forward * 40f, ForceMode.VelocityChange);
             }
 
             Collider bulletCollider = bullet.GetComponent<Collider>();

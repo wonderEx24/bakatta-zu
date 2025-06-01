@@ -1,6 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using System.Collections;
 
 public class PatrolAndChase : MonoBehaviour
 {
@@ -13,12 +12,24 @@ public class PatrolAndChase : MonoBehaviour
     public float fieldOfView = 60f;       // 視野角
     public float lostSightGraceTime = 3f; // 見失い猶予時間 (秒)
 
-    private int currentPatrolIndex = 0;   // 現在の巡回ポイント
-    private bool chasing = false;         // 追尾中かどうか
-    private float lostSightTimer = 0f;    // 見失い猶予タイマー
-
-    // プレイヤーの速度
     public float playerMovementSpeed = 0.2f;
+
+    // 🔁 複製関連の追加項目
+    public bool shouldDuplicate = true;         // このオブジェクトが増殖を開始するか
+    public GameObject clonePrefab;              // 自分自身のプレハブ（増殖に使用）
+
+    private int currentPatrolIndex = 0;         // 現在の巡回ポイント
+    private bool chasing = false;               // 追尾中かどうか
+    private float lostSightTimer = 0f;          // 見失い猶予タイマー
+
+    void Start()
+    {
+        // 🔁 クローン増殖開始
+        //if (shouldDuplicate)
+        //{
+            //StartCoroutine(CloneSelfRoutine());
+        //}
+    }
 
     void Update()
     {
@@ -33,16 +44,17 @@ public class PatrolAndChase : MonoBehaviour
         }
     }
 
-    private void Patrol() {
+    private void Patrol()
+    {
         if (patrolPoints.Length == 0) return;
 
-        // 次の巡回ポイントまで移動
         Transform patrolPoint = patrolPoints[currentPatrolIndex];
         Vector3 direction = (patrolPoint.position - transform.position).normalized;
         transform.position += direction * patrolSpeed * Time.deltaTime;
         transform.LookAt(patrolPoint);
 
-        if (Vector3.Distance(transform.position, patrolPoint.position) < 0.5f) {
+        if (Vector3.Distance(transform.position, patrolPoint.position) < 0.5f)
+        {
             currentPatrolIndex = (currentPatrolIndex + 1) % patrolPoints.Length;
         }
     }
@@ -65,24 +77,27 @@ public class PatrolAndChase : MonoBehaviour
         }
     }
 
-    private void ChaseTarget() {
-        if (target == null) {
+    private void ChaseTarget()
+    {
+        if (target == null)
+        {
             chasing = false;
             return;
         }
 
-        // プレイヤーの速度に基づいて追尾速度を計算
         playerMovementSpeed = playermove.keyMovementSpeed;
         float chaseSpeed = playerMovementSpeed * chaseSpeedMultiplier;
 
-        // 追尾
         Vector3 direction = (target.position - transform.position).normalized;
         Vector3 newPosition = transform.position + direction * chaseSpeed * Time.deltaTime;
 
         Rigidbody rb = GetComponent<Rigidbody>();
-        if (rb != null) {
+        if (rb != null)
+        {
             rb.MovePosition(newPosition);
-        } else {
+        }
+        else
+        {
             transform.position = newPosition;
         }
 
@@ -91,9 +106,11 @@ public class PatrolAndChase : MonoBehaviour
         float distanceToTarget = Vector3.Distance(transform.position, target.position);
         float angleToTarget = Vector3.Angle(transform.forward, direction);
 
-        if (distanceToTarget > detectionRange || angleToTarget > fieldOfView / 2 || !HasLineOfSight(target)) {
+        if (distanceToTarget > detectionRange || angleToTarget > fieldOfView / 2 || !HasLineOfSight(target))
+        {
             lostSightTimer -= Time.deltaTime;
-            if (lostSightTimer <= 0) {
+            if (lostSightTimer <= 0)
+            {
                 chasing = false;
             }
         }
@@ -115,4 +132,24 @@ public class PatrolAndChase : MonoBehaviour
         }
         return true;
     }
+
+    // 🔁 クローンを1秒ごとに生成するコルーチン
+    //private IEnumerator CloneSelfRoutine()
+    //{
+    //while (true)
+    //{
+        //yield return new WaitForSeconds(1f);
+
+        //if (clonePrefab != null)
+        //{
+            //GameObject clone = Instantiate(clonePrefab, transform.position + new Vector3(1f, 0f, 0f), transform.rotation);
+
+            //PatrolAndChase cloneScript = clone.GetComponent<PatrolAndChase>();
+            //if (cloneScript != null)
+            //{
+                //cloneScript.shouldDuplicate = false; // クローンは複製しない
+            //}
+        //}
+    //}
+    //}
 }
