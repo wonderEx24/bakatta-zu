@@ -21,5 +21,9 @@ public class report : MonoBehaviour
         //     count = count + 2;
         // }
         count += Time.deltaTime;
+        if(count > 10)
+        {
+            count -= 10;
+        }
     }
 }

@@ -17,7 +17,7 @@ public class police : MonoBehaviour
     {
         Report = report.count;
         // Debug.Log(Report);
-        if(Report > 9.95f)
+        if(Report > 9.98f)
         {
             //署から出動、確率でパトカー　プレファブにする
             Instantiate(polices[number], prison.transform.position, Quaternion.identity);

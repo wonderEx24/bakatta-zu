@@ -14,7 +14,7 @@ public class criminals : MonoBehaviour
     void Update()
     {
         // Intercom = intercom.push;
-        Debug.Log(Intercom);
+        // Debug.Log(Intercom);
         if(Intercom == true)
         {
             //事務所から出てくる
