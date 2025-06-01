@@ -24,7 +24,7 @@ public class RandomSpawner : MonoBehaviour
             GameObject selectedPrefab = prefabsToSpawn[randomIndex];
 
             // 生成
-            Instantiate(selectedPrefab, randomPosition, Quaternion.identity);
+            Instantiate(selectedPrefab, randomPosition, selectedPrefab.transform.rotation);
         }
     }
 
