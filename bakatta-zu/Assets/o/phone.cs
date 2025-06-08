@@ -5,7 +5,7 @@ using DG.Tweening;
 
 public class phone : MonoBehaviour
 {
-    public bool usephone = false;
+    public static bool usephone = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -15,21 +15,31 @@ public class phone : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown("q"))
+        if(usephone == false)
         {
-            if(usephone == false)
+            if(Input.GetKeyDown("tab"))
             {
+                Debug.Log("usephone");
                 this.transform.DOMove(new Vector3(0,-6,-5.6f), 1).SetRelative(true);
-                usephone = true;
+                Invoke("Fals",0.1f);
             }
         }
-        if(Input.GetKeyDown("tab"))
+        if(usephone == true)
         {
-            if(usephone == true)
+            if(Input.GetKeyDown("tab"))
             {
+                Debug.Log("notuse");
                 this.transform.DOMove(new Vector3(0,6,5.6f), 1).SetRelative(true);
-                usephone = false;
+                Invoke("Tru",0.1f);
             }
         }
+    }
+    void Fals()
+    {
+        usephone = true;
+    }
+    void Tru()
+    {
+        usephone = false;
     }
 }

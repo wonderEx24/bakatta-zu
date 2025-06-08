@@ -5,6 +5,7 @@ using UnityEngine.EventSystems;
 
 public class click : MonoBehaviour, IPointerClickHandler
 {
+    public GameObject app;
     // Start is called before the first frame update
     void Start()
     {
@@ -18,6 +19,6 @@ public class click : MonoBehaviour, IPointerClickHandler
     }
     public void OnPointerClick(PointerEventData eventData)
     {
-        Debug.Log($"オブジェクト {name} がクリックされたよ！");
+        app.transform.position = this.transform.position;
     }
 }

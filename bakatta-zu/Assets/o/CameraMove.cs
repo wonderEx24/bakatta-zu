@@ -9,6 +9,7 @@ public class CameraMove : MonoBehaviour
     public float rotateSpeed = 2.0f;
     private Vector3 offset;
     public Transform myTransform;
+    bool canmove = phone.usephone;;
 
     //呼び出し時に実行される関数
     void Start()
@@ -24,6 +25,7 @@ public class CameraMove : MonoBehaviour
     //単位時間ごとに実行される関数
     void Update()
     {
+        Debug.Log(canmove);
         //rotateCameraの呼び出し
         rotateCamera();
         //新しいトランスフォームの値を代入する
@@ -49,19 +51,25 @@ public class CameraMove : MonoBehaviour
     //カメラを回転させる関数
     private void rotateCamera()
     {
-        if(!Input.anyKey)
+        if(canmove == false)
         {
-            //Vector3でX,Y方向の回転の度合いを定義
-            Vector3 angle = new Vector3(Input.GetAxis("Mouse X") * rotateSpeed,Input.GetAxis("Mouse Y") * rotateSpeed, 0);
-            //transform.RotateAround()をしようしてメインカメラを回転させる
-            mainCamera.transform.RotateAround(playerObject.transform.position, Vector3.up, angle.x);
-            mainCamera.transform.RotateAround(playerObject.transform.position, -transform.right, angle.y);
+            if(!Input.anyKey)
+            {
+                //Vector3でX,Y方向の回転の度合いを定義
+                Vector3 angle = new Vector3(Input.GetAxis("Mouse X") * rotateSpeed,Input.GetAxis("Mouse Y") * rotateSpeed, 0);
+                //transform.RotateAround()をしようしてメインカメラを回転させる
+                mainCamera.transform.RotateAround(playerObject.transform.position, Vector3.up, angle.x);
+                mainCamera.transform.RotateAround(playerObject.transform.position, -transform.right, angle.y);
+            }
+            else
+            {
+                Vector3 angle = new Vector3(Input.GetAxis("Mouse X") * rotateSpeed,Input.GetAxis("Mouse Y") * rotateSpeed, 0);
+                mainCamera.transform.RotateAround(playerObject.transform.position, Vector3.up, angle.x);
+                // mainCamera.transform.RotateAround(playerObject.transform.position, -transform.right, angle.y);
+            }
         }
         else
         {
-            Vector3 angle = new Vector3(Input.GetAxis("Mouse X") * rotateSpeed,Input.GetAxis("Mouse Y") * rotateSpeed, 0);
-            mainCamera.transform.RotateAround(playerObject.transform.position, Vector3.up, angle.x);
-            // mainCamera.transform.RotateAround(playerObject.transform.position, -transform.right, angle.y);
         }
     }
 }
