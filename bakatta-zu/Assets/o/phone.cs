@@ -20,7 +20,8 @@ public class phone : MonoBehaviour
             if(Input.GetKeyDown("tab"))
             {
                 Debug.Log("usephone");
-                this.transform.DOMove(new Vector3(0,-6,-5.6f), 1).SetRelative(true);
+                this.transform.DOLocalMove(new Vector3(0,0,0.4f), 1);
+                this.transform.DORotate(new Vector3(90,180,0), 1, RotateMode.Fast);
                 Invoke("Fals",0.1f);
             }
         }
@@ -29,7 +30,8 @@ public class phone : MonoBehaviour
             if(Input.GetKeyDown("tab"))
             {
                 Debug.Log("notuse");
-                this.transform.DOMove(new Vector3(0,6,5.6f), 1).SetRelative(true);
+                this.transform.DOLocalMove(new Vector3(0.3f,-1.3f,-0.3f), 1);
+                this.transform.DORotate(new Vector3(120,-45,120), 1, RotateMode.Fast);
                 Invoke("Tru",0.1f);
             }
         }

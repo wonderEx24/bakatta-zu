@@ -9,7 +9,7 @@ public class CameraMove : MonoBehaviour
     public float rotateSpeed = 2.0f;
     private Vector3 offset;
     public Transform myTransform;
-    bool canmove = phone.usephone;;
+    bool canmove = phone.usephone;
 
     //呼び出し時に実行される関数
     void Start()
