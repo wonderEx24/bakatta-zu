@@ -25,7 +25,7 @@ public class CameraMove : MonoBehaviour
     //単位時間ごとに実行される関数
     void Update()
     {
-        Debug.Log(canmove);
+        // Debug.Log(canmove);
         //rotateCameraの呼び出し
         rotateCamera();
         //新しいトランスフォームの値を代入する
