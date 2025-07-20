@@ -356,11 +356,11 @@
 "Assets/K_program/script/cameramove.cs"
 "Assets/K_program/script/itemkirikae.cs"
 "Assets/K_program/script/move.cs"
+"Assets/K_program/script/odenhatei.cs"
 "Assets/K_program/script/police move.cs"
 "Assets/K_program/script/satuei.cs"
 "Assets/K_program/script/ScreenShot.cs"
 "Assets/K_program/script/tuukounin.cs"
-"Assets/odenhatei.cs"
 -langversion:9.0
 
 /deterministic
