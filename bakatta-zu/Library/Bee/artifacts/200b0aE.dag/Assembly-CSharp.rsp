@@ -361,6 +361,8 @@
 "Assets/K_program/script/satuei.cs"
 "Assets/K_program/script/ScreenShot.cs"
 "Assets/K_program/script/tuukounin.cs"
+"Assets/warpdoor1.cs"
+"Assets/Warpdoor2.cs"
 -langversion:9.0
 
 /deterministic

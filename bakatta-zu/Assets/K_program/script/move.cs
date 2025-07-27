@@ -36,6 +36,11 @@ public class Move : MonoBehaviour
         if (distanceToOden <= interactDistance && !isActioning) // おでんに近い、かつ行動していない場合
         {
             isNearOden = true;
+            if (isNearOden)
+            {
+                //Debug.Log("おでんに近い状態です！");
+            }
+
             if (Input.GetKeyDown(KeyCode.E))
             {
                 InteractWithOden();  // おでんとのインタラクション
