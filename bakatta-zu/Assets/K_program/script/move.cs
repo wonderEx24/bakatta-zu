@@ -53,6 +53,7 @@ public class Move : MonoBehaviour
             isNearOden = false;
         }
 
+
         // プレイヤーの移動処理
         float movementSpeed = Input.GetKey(KeyCode.LeftShift) ? keyMovementSpeed * 2 : keyMovementSpeed;
 
@@ -65,7 +66,7 @@ public class Move : MonoBehaviour
         if (Mathf.Abs(mx) > 0.001f) transform.Rotate(0, mx * mouseSensitivity, 0);
 
         // ジャンプ処理
-        if (isGrounded && Input.GetKeyDown(KeyCode.Space))
+        if (/*isGrounded && */Input.GetKeyDown(KeyCode.Space))
         {
             rb.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
             isGrounded = false;
@@ -79,20 +80,20 @@ public class Move : MonoBehaviour
     }
 
     // 地面判定
-    private void OnCollisionStay(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Ground"))
-        {
-            foreach (ContactPoint contact in collision.contacts)
-            {
-                if (Vector3.Angle(contact.normal, Vector3.up) < 45f)
-                {
-                    isGrounded = true;
-                    return;
-                }
-            }
-        }
-    }
+    // private void OnCollisionStay(Collision collision)
+    // {
+    //     if (collision.gameObject.CompareTag("Ground"))
+    //     {
+    //         foreach (ContactPoint contact in collision.contacts)
+    //         {
+    //             if (Vector3.Angle(contact.normal, Vector3.up) < 45f)
+    //             {
+    //                 isGrounded = true;
+    //                 return;
+    //             }
+    //         }
+    //     }
+    // }
 
     private void OnCollisionExit(Collision collision)
     {
@@ -109,3 +110,4 @@ public class Move : MonoBehaviour
         isActioning = false;  // フラグをリセット
     }
 }
+//player speed 0.12

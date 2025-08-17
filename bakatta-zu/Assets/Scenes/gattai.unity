@@ -9825,9 +9825,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19b496b314898471c9b290724daabacd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpPower: 8
+  jumpPower: 15
   mouseSensitivity: 2
-  keyMovementSpeed: 0.12
+  keyMovementSpeed: 3300
   oden: {fileID: 195876032}
   interactDistance: 2
 --- !u!1001 &1705593284
@@ -13012,6 +13012,14 @@ PrefabInstance:
     - target: {fileID: 5274698833115831721, guid: 7bab142e5dfb5466fa5efe949b46b2ab, type: 3}
       propertyPath: m_Name
       value: "\u75C5\u9662\u5185\u88C5\u90E8\u54C1"
+      objectReference: {fileID: 0}
+    - target: {fileID: 6079687104409224355, guid: 7bab142e5dfb5466fa5efe949b46b2ab, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6079687104409224355, guid: 7bab142e5dfb5466fa5efe949b46b2ab, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6906977678944015276, guid: 7bab142e5dfb5466fa5efe949b46b2ab, type: 3}
       propertyPath: m_Name
