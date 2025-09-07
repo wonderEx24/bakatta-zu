@@ -4,7 +4,11 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - takeshi
+  - Ground
+  - Player2
+  - Bullet
+  - Oden
+  - door1
   layers:
   - Default
   - TransparentFX

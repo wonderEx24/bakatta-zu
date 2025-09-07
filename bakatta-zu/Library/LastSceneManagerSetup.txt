@@ -1,5 +1,5 @@
 sceneSetups:
-- path: Assets/Plugins/DC Code/Target Scanner/Scene (Can Remove)/Example.unity
+- path: Assets/Scenes/gattai.unity
   isLoaded: 1
   isActive: 1
   isSubScene: 0
