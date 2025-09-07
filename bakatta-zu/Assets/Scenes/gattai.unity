@@ -9825,9 +9825,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19b496b314898471c9b290724daabacd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpPower: 15
+  jumpPower: 6
   mouseSensitivity: 2
-  keyMovementSpeed: 3300
+  keyMovementSpeed: 0.18
   oden: {fileID: 195876032}
   interactDistance: 2
 --- !u!1001 &1705593284
