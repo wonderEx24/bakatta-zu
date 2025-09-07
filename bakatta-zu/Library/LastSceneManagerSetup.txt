@@ -1,5 +1,5 @@
 sceneSetups:
-- path: Assets/Plugins/DC Code/Scenes/New Folder/kakusan.unity
+- path: Assets/Plugins/DC Code/Target Scanner/Scene (Can Remove)/Example.unity
   isLoaded: 1
   isActive: 1
   isSubScene: 0
