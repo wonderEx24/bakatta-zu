@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 1440
     height: 847
   m_ShowMode: 4
-  m_Title: Hierarchy
+  m_Title: Project
   m_RootView: {fileID: 2}
   m_MinSize: {x: 875, y: 492}
   m_MaxSize: {x: 10000, y: 10000}
@@ -218,8 +218,8 @@ MonoBehaviour:
     y: 0
     width: 195
     height: 797
-  m_MinSize: {x: 202, y: 221}
-  m_MaxSize: {x: 4002, y: 4021}
+  m_MinSize: {x: 200, y: 200}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 14}
   m_Panes:
   - {fileID: 14}
@@ -596,6 +596,19 @@ MonoBehaviour:
       layout: 4
       size: {x: 0, y: 0}
       sizeOverriden: 0
+    - dockPosition: 1
+      containerId: overlay-container--right
+      floating: 0
+      collapsed: 0
+      displayed: 1
+      snapOffset: {x: 48, y: 48}
+      snapOffsetDelta: {x: 0, y: 0}
+      snapCorner: 0
+      id: AINavigationOverlay
+      index: 8
+      layout: 4
+      size: {x: 0, y: 0}
+      sizeOverriden: 0
     m_OverlaysVisible: 1
   m_WindowGUID: 203dea2cd8c5049cdbc0bc4fa258f9d2
   m_Gizmos: 1
@@ -607,9 +620,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 72.235565, y: 3.2136078, z: -10.34156}
+    m_Target: {x: -0.62785643, y: 2.0851912, z: 0.76512957}
     speed: 2
-    m_Value: {x: 72.235565, y: 3.2136078, z: -10.34156}
+    m_Value: {x: -0.62785643, y: 2.0851912, z: 0.76512957}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -655,13 +668,13 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: 0.20471042, y: -0.63751554, z: 0.1811813, w: 0.7203067}
+    m_Target: {x: 0.07238605, y: -0.923237, z: 0.30943683, w: 0.2159713}
     speed: 2
-    m_Value: {x: -0.20471042, y: 0.63751554, z: -0.1811813, w: -0.7203067}
+    m_Value: {x: 0.07238601, y: -0.9232366, z: 0.30943668, w: 0.2159712}
   m_Size:
-    m_Target: 93.75823
+    m_Target: 2.4358506
     speed: 2
-    m_Value: 93.89908
+    m_Value: 2.4358506
   m_Ortho:
     m_Target: 0
     speed: 2
@@ -825,7 +838,7 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: 30fbffff
+      m_ExpandedIDs: 30fbffff685d0000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -894,7 +907,7 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/K_program/script
+    - Assets
     m_Globs: []
     m_OriginalText: 
     m_ImportLogFlags: 0
@@ -902,15 +915,15 @@ MonoBehaviour:
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/K_program/script
+  - Assets
   m_LastFoldersGridSize: -1
   m_LastProjectPath: /Users/wonder_staff/Documents/Ex/Unity/bakatta-zu/bakatta-zu
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 2a6a0000
-    m_LastClickedID: 27178
+    m_SelectedIDs: e8690000
+    m_LastClickedID: 27112
     m_ExpandedIDs: 00000000e8690000ea690000fe69000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
