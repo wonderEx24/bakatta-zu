@@ -4,6 +4,14 @@ using UnityEngine;
 
 public class Warpdoor2 : MonoBehaviour
 {
+    AudioSource audioSource;
+    public AudioClip SE1;
+    public AudioClip SE2;
+    public AudioClip SE3;
+
+
+
+
     public Transform warpDestination;
     public float disableTriggerDuration = 0.5f;  // 無効時間
 
@@ -11,6 +19,7 @@ public class Warpdoor2 : MonoBehaviour
 
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         doorCollider = GetComponent<Collider>();
     }
 
@@ -18,6 +27,7 @@ public class Warpdoor2 : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            audioSource.PlayOneShot(SE1);
             // ドアの当たり判定を無効化してワープ
             StartCoroutine(TemporarilyDisableTrigger(other));
         }
