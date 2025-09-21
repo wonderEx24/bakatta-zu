@@ -114,14 +114,17 @@ namespace ScreenshotUtility
         }
         
         [ContextMenu("スクリーンショットを撮影する")]
-        public void getScreenShots()
-        {
-            //NullCheck
-            if(NullCheck()){ return; }
-            // Application.dataPath = ../Assets
-            string path = UnityEngine.Application.dataPath + "/" + _screenShotFolderName + "/";
-            StartCoroutine(imageShooting(path, _screenShotsTitle));
-        }
+public void getScreenShots()
+{
+    //NullCheck
+    if(NullCheck()){ return; }
+
+    // 保存先を "Resources/ScreenShots/" に固定
+    string path = UnityEngine.Application.dataPath + "/Resources/ScreenShots/";
+
+    // スクリーンショットを撮影するコルーチンを開始
+    StartCoroutine(imageShooting(path, _screenShotsTitle));
+}
 
         //撮影処理
         //第一引数 ファイルパス / 第二引数 タイトル
