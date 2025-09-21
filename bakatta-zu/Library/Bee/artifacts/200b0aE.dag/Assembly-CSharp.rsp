@@ -366,6 +366,8 @@
 "Assets/K_program/script/satuei.cs"
 "Assets/K_program/script/ScreenShot.cs"
 "Assets/K_program/script/tuukounin.cs"
+"Assets/post manager/PostManager.cs"
+"Assets/post manager/PostUI.cs"
 "Assets/R_zikken/zikken.cs"
 "Assets/warpdoor1.cs"
 "Assets/Warpdoor2.cs"
