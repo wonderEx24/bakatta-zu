@@ -3,12 +3,7 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags:
-  - Ground
-  - Player2
-  - Bullet
-  - Oden
-  - door1
+  tags: []
   layers:
   - Default
   - TransparentFX
