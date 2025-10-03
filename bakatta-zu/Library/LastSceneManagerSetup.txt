@@ -1,5 +1,0 @@
-sceneSetups:
-- path: Assets/Plugins/DC Code/Scenes/gattai.unity
-  isLoaded: 1
-  isActive: 1
-  isSubScene: 0
