@@ -5,9 +5,10 @@ using DG.Tweening;
 
 public class phone : MonoBehaviour
 {
-    public static bool usephone = false;
+    public enum usephone
+    {use, notuse, Recording}
+    public usephone currentState = usephone.notuse;  // 初期状態
     public GameObject came;
-
     private bool isRotating = false;
     private float rotationDuration = 1f; // 回転にかける時間（秒）
     private float elapsedTime = 0f;
@@ -21,7 +22,7 @@ public class phone : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(usephone == false)
+        if(currentState == phone.usephone.notuse || currentState == phone.usephone.Recording)
         {
             if(Input.GetKeyDown("tab"))
             {
@@ -41,7 +42,7 @@ public class phone : MonoBehaviour
                 Invoke("Fals",0.1f);
             }
         }
-        if(usephone == true)
+        if(currentState == phone.usephone.use)
         {
             if(Input.GetKeyDown("tab"))
             {
@@ -53,7 +54,7 @@ public class phone : MonoBehaviour
                 startRotation = came.transform.rotation;
                 // 現在の回転を基に、X軸を20度にしたターゲット回転を作成
                 Vector3 currentEuler = came.transform.eulerAngles;
-                Vector3 targetEuler = new Vector3(-10f, currentEuler.y, currentEuler.z);
+                Vector3 targetEuler = new Vector3(0f, currentEuler.y, currentEuler.z);
                 targetRotation = Quaternion.Euler(targetEuler);
                 elapsedTime = 0f;
                 isRotating = true;
@@ -76,10 +77,10 @@ public class phone : MonoBehaviour
     }
     void Fals()
     {
-        usephone = true;
+        currentState = usephone.use;
     }
     void Tru()
     {
-        usephone = false;
+        currentState = usephone.notuse;
     }
 }

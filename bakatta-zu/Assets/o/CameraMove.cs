@@ -9,7 +9,8 @@ public class CameraMove : MonoBehaviour
     public float rotateSpeed = 2.0f;
     private Vector3 offset;
     public Transform myTransform;
-    bool canmove = phone.usephone;
+    public phone.usephone currentState;
+    // bool canmove = phone.usephone;
 
     //呼び出し時に実行される関数
     void Start()
@@ -51,7 +52,7 @@ public class CameraMove : MonoBehaviour
     //カメラを回転させる関数
     private void rotateCamera()
     {
-        if(canmove == false)
+        if(currentState == phone.usephone.notuse)
         {
             if(!Input.anyKey)
             {
@@ -68,8 +69,14 @@ public class CameraMove : MonoBehaviour
                 // mainCamera.transform.RotateAround(playerObject.transform.position, -transform.right, angle.y);
             }
         }
-        else
+        else if(currentState == phone.usephone.Recording)
         {
+            // カーソルを非表示にする
+            Cursor.visible = false;
+            // カーソルを画面中央にロック（動かせないようにする）
+            Cursor.lockState = CursorLockMode.Locked;
         }
+        else if(currentState == phone.usephone.use)
+        {}
     }
 }
