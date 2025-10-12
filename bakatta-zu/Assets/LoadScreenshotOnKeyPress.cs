@@ -1,10 +1,11 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LoadScreenshotOnKeyPress : MonoBehaviour
 {
-    // 表示開始位置や間隔はここで調整可能
-    public Vector3 startPosition = Vector3.zero;
-    public float spacing = 2f;
+    public Canvas canvas; // ← 上司の指示により、ここにCanvasを指定して使う
+    public Vector2 startPosition = Vector2.zero;
+    public float spacing = 200f; // UI上の間隔(px)
 
     void Update()
     {
@@ -16,7 +17,6 @@ public class LoadScreenshotOnKeyPress : MonoBehaviour
 
     void DisplayAllScreenshots()
     {
-        // Resources/ScreenShots フォルダから全スプライトを読み込み
         Sprite[] sprites = Resources.LoadAll<Sprite>("ScreenShots");
 
         if (sprites.Length == 0)
@@ -27,14 +27,17 @@ public class LoadScreenshotOnKeyPress : MonoBehaviour
 
         for (int i = 0; i < sprites.Length; i++)
         {
-            GameObject go = new GameObject("Screenshot_" + i);
-            SpriteRenderer sr = go.AddComponent<SpriteRenderer>();
-            sr.sprite = sprites[i];
+            GameObject go = new GameObject("ScreenshotUI_" + i);
+            go.transform.SetParent(canvas.transform, false); // ← Canvasの子に設定
 
-            // 横に spacing ずつずらして配置
-            go.transform.position = startPosition + new Vector3(i * spacing, 0, 0);
+            Image image = go.AddComponent<Image>();
+            image.sprite = sprites[i];
+            image.SetNativeSize(); // 元画像サイズで表示
+
+            RectTransform rectTransform = go.GetComponent<RectTransform>();
+            rectTransform.anchoredPosition = startPosition + new Vector2(i * spacing, 0);
         }
 
-        Debug.Log(sprites.Length + "枚のスクリーンショットを表示しました");
+        Debug.Log(sprites.Length + "枚のスクリーンショットをCanvasに表示しました");
     }
 }
