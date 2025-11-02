@@ -17,13 +17,13 @@ public class textidou : MonoBehaviour
     IEnumerator idou()
     {
 
-        for (int i = 0; i < 20; i = i + 1)
+        for (int i = 0; i < 40; i = i + 1)
         {
-            about.transform.position = new Vector3(0, 30, 0);
+            about.transform.position = new Vector3(0, time*10-200, 0);
             time = time + 1;
             yield return new WaitForSeconds(0.1f);
         }
-        if (time == 20)
+        if (time == 40)
         {
             for (int i = 0; i < 100; i = i + 1)
             {
@@ -43,7 +43,7 @@ public class textidou : MonoBehaviour
     {
         time = 0;
         Debug.Log("b");
-        about.transform.position = new Vector3(0, -1100, 0);
+        about.transform.position = new Vector3(1000, -2000, 1000);
         StartCoroutine("idou");
         
     }
