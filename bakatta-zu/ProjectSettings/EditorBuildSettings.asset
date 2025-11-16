@@ -6,6 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Plugins/DC Code/Scenes/gattai.unity
+    path: Assets/scene/gattai.unity
     guid: 7c608f4d45fa74d11a7104bfc603c274
   m_configObjects: {}
